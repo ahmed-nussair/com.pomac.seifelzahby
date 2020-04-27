@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProductsViewModel extends ViewModel {
 
     private MutableLiveData<ProductsResponse> productsResponse;
+    private Disposable disposable;
 
     public LiveData<ProductsResponse> getProductsResponse(int categoryId) {
         if (productsResponse == null) {
@@ -43,12 +44,15 @@ public class ProductsViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
-        observable.subscribe(
-                response -> {
-                    productsResponse.setValue(response);
-                }, e -> {
-                    Log.e("nussair", e.toString());
-                }
+        disposable = observable.subscribe(
+                response -> productsResponse.setValue(response),
+                e -> Log.e("nussair", e.toString())
         );
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        disposable.dispose();
     }
 }

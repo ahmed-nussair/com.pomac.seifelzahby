@@ -56,7 +56,7 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         secondaryCategoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        model.getCategoreisResponse().observe(getActivity(), response -> {
+        model.getCategoriesResponse().observe(getActivity(), response -> {
 
 
             CategoriesAdapter adapter = new CategoriesAdapter(getContext(), response.getData(), this, this);
