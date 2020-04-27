@@ -35,4 +35,10 @@
     <string name="show_product_details">عرض</string>
 
     <string name="cart_item_number_test_data">+99</string>
+
+    <string name="add_to_cart">أضف إلى العربة</string>
+
+    <string name="quantity_initial_value">1</string>
+
+    <string name="related_products">منتجات ذات صلة</string>
 </resources>

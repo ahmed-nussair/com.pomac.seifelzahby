@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
+import com.squareup.picasso.Picasso;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -58,6 +59,9 @@ public class ProductDetailsFragment extends Fragment {
         assert getActivity() != null;
         TextView productCategoryMainTitle = getActivity().findViewById(R.id.productCategoryMainTitle);
         ImageView backToProductsList = getActivity().findViewById(R.id.backToProductsList);
+        ImageView productImageView = getActivity().findViewById(R.id.productDetailsImage);
+        TextView productDesctipionTextView = getActivity().findViewById(R.id.productDescription);
+        TextView productPriceTextView = getActivity().findViewById(R.id.productDetailsPrice);
 
         productCategoryMainTitle.setText(categoryName);
         backToProductsList.setOnClickListener(v -> {
@@ -66,5 +70,14 @@ public class ProductDetailsFragment extends Fragment {
             bundle.putString("categoryTitle", categoryName);
             findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.productsFragment, bundle);
         });
+
+        Picasso.get()
+                .load(productImagePath)
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.error)
+                .into(productImageView);
+
+        productDesctipionTextView.setText(productDescription);
+        productPriceTextView.setText(String.format("%s رس", productPrice));
     }
 }
