@@ -4,18 +4,26 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
+import com.pomac.seifelzahby.adapters.OnProductSelected;
+import com.pomac.seifelzahby.adapters.ProductsAdapter;
+import com.pomac.seifelzahby.viewmodel.ProductsViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
+import java.util.Map;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -23,7 +31,7 @@ import static androidx.navigation.Navigation.findNavController;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductDetailsFragment extends Fragment {
+public class ProductDetailsFragment extends Fragment implements OnProductSelected {
 
     private int categoryId;
     private String categoryName;
@@ -71,6 +79,8 @@ public class ProductDetailsFragment extends Fragment {
         ImageView incrementItems = getActivity().findViewById(R.id.incrementItems);
         ImageView decrementItems = getActivity().findViewById(R.id.decrementItems);
         TextView quantityTextView = getActivity().findViewById(R.id.quantityTextView);
+        Button productDetailsButton = getActivity().findViewById(R.id.productDetailsButton);
+        RecyclerView relatedProductsRecycleView = getActivity().findViewById(R.id.relatedProductsRecycleView);
 
         productCategoryMainTitle.setText(categoryName);
         backToProductsList.setOnClickListener(v -> {
@@ -97,6 +107,10 @@ public class ProductDetailsFragment extends Fragment {
             }
         });
 
+        productDetailsButton.setOnClickListener(v -> {
+
+        });
+
         Picasso.get()
                 .load(productImagePath)
                 .placeholder(R.drawable.loading)
@@ -105,5 +119,37 @@ public class ProductDetailsFragment extends Fragment {
 
         productDesctipionTextView.setText(productDescription);
         productPriceTextView.setText(String.format("%s رس", productPrice));
+
+        relatedProductsRecycleView.setLayoutManager(new GridLayoutManager(getContext(), 2,
+                GridLayoutManager.VERTICAL, false));
+
+//        relatedProductsRecycleView.setNestedScrollingEnabled(false);
+
+        ProductsViewModel model = ViewModelProviders.of(this).get(ProductsViewModel.class);
+
+        assert getActivity() != null;
+        model.getProductsResponse(categoryId).observe(getActivity(), response -> {
+
+            ProductsAdapter adapter = new ProductsAdapter(getContext(), response.getData(), this);
+            relatedProductsRecycleView.setAdapter(adapter);
+
+        });
+    }
+
+    @Override
+    public void onProductSelected(Map<String, String> productData) {
+//        Bundle bundle = new Bundle();
+//
+//        String productIdData = productData.get(Globals.PRODUCT_ID);
+//        bundle.putInt(Globals.PRODUCT_ID, productIdData != null ? Integer.parseInt(productIdData) : 0);
+//        bundle.putString(Globals.PRODUCT_NAME, productData.get(Globals.PRODUCT_NAME));
+//        bundle.putString(Globals.PRODUCT_DESCRIPTION, productData.get(Globals.PRODUCT_DESCRIPTION));
+//        bundle.putString(Globals.PRODUCT_IMAGE_PATH, productData.get(Globals.PRODUCT_IMAGE_PATH));
+//        bundle.putString(Globals.PRODUCT_PRICE, productData.get(Globals.PRODUCT_PRICE));
+//        bundle.putString(Globals.PRODUCT_CATEGORY_NAME, productData.get(Globals.PRODUCT_CATEGORY_NAME));
+//        bundle.putInt(Globals.PRODUCT_CATEGORY_ID, categoryId);
+//
+//        assert getActivity() != null;
+//        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.productDetailsFragment, bundle);
     }
 }
