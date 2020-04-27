@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context=".view.fragments.AboutFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_10sdp"
+        app:cardPreventCornerOverlap="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/about_title"
+                android:textSize="@dimen/_20ssp" />
+
+            <include
+                layout="@layout/cart_items_number"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_200sdp"
+        android:src="@drawable/final_logo"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:text="@string/about_description"
+        android:textSize="@dimen/_15ssp" />
+
+    <TextView
+        android:id="@+id/forContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:text="@string/for_contact"
+        android:textColor="#edb46f"
+        android:textSize="@dimen/_17ssp" />
+
+    <LinearLayout
+        android:id="@+id/contactNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:src="@drawable/call"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_number"
+            android:textColor="#2196f3"
+            android:textSize="@dimen/_17ssp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

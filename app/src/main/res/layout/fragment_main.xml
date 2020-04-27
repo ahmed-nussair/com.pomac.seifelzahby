@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context=".view.fragments.MainFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_10sdp"
+        app:cardPreventCornerOverlap="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/main_title"
+                android:textSize="@dimen/_20ssp" />
+
+            <include
+                layout="@layout/cart_items_number"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:id="@+id/editText0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/search"
+                android:inputType="text">
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/_10sdp"
+                android:autofillHints="@string/search"
+                android:background="@drawable/search_background"
+                android:drawableStart="@drawable/search"
+                android:focusableInTouchMode="true"
+                android:hint="@string/search"
+                android:inputType="text"
+                android:padding="@dimen/_10sdp" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:id="@+id/mainSliderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:background="#fafafa">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/mainSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </androidx.viewpager.widget.ViewPager>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabDots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layoutDirection="ltr"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabRippleColor="@android:color/transparent" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" />
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">SeifElZahby</string>
+
+    <string name="main">الرئيسية</string>
+    <string name="list">القائمة</string>
+    <string name="shopping_cart">عربة التسوق</string>
+    <string name="about">عن التطبيق</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_fragment">Main Fragment</string>
+    <string name="list_fragment">List Fragment</string>
+    <string name="about_fragment">About Fragment</string>
+    <string name="shopping_cart_fragment">Shopping Cart Fragment</string>
+    <string name="products_fragment">Products Fragment</string>
+
+    <string name="about_title">عن التطبيق</string>
+    <string name="main_title">الرئيسية</string>
+    <string name="shopping_cart_title">عربة التسوق</string>
+    <string name="list_title">القائمة</string>
+
+    <string name="search">بحث</string>
+
+    <string name="shopping_cart_image_view">Shopping Cart</string>
+
+    <string name="about_description">
+        تطبيق يساعدك على اختيار أفضل أدوات المنزل التي تحتاج إليها ويوفر لك خدمة التوصيل إلى المنزل
+    </string>
+
+    <string name="no_item_in_the_cart">لم تضع أي منتجات في العربة</string>
+    <string name="error_loading_cart">حدث خطأ أثناء تحميل البيانات</string>
+
+    <string name="for_contact">للتواصل</string>
+    <string name="contact_number"><u>059584575</u></string>
+
+    <string name="show_product_details">عرض</string>
+
+    <string name="cart_item_number_test_data">+99</string>
+</resources>
