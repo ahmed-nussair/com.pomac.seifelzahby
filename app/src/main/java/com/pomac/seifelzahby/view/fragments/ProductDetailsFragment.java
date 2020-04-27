@@ -15,6 +15,8 @@ import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
+
 import static androidx.navigation.Navigation.findNavController;
 
 
@@ -30,6 +32,8 @@ public class ProductDetailsFragment extends Fragment {
     private String productDescription;
     private String productPrice;
     private String productImagePath;
+
+    private int productQuantity;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -47,6 +51,8 @@ public class ProductDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        productQuantity = 1;
+
         assert getArguments() != null;
         categoryId = getArguments().getInt(Globals.PRODUCT_CATEGORY_ID, -1);
         categoryName = getArguments().getString(Globals.PRODUCT_CATEGORY_NAME);
@@ -62,6 +68,9 @@ public class ProductDetailsFragment extends Fragment {
         ImageView productImageView = getActivity().findViewById(R.id.productDetailsImage);
         TextView productDesctipionTextView = getActivity().findViewById(R.id.productDescription);
         TextView productPriceTextView = getActivity().findViewById(R.id.productDetailsPrice);
+        ImageView incrementItems = getActivity().findViewById(R.id.incrementItems);
+        ImageView decrementItems = getActivity().findViewById(R.id.decrementItems);
+        TextView quantityTextView = getActivity().findViewById(R.id.quantityTextView);
 
         productCategoryMainTitle.setText(categoryName);
         backToProductsList.setOnClickListener(v -> {
@@ -69,6 +78,23 @@ public class ProductDetailsFragment extends Fragment {
             bundle.putInt("categoryId", categoryId);
             bundle.putString("categoryTitle", categoryName);
             findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.productsFragment, bundle);
+        });
+
+        incrementItems.setOnClickListener(v -> {
+            productQuantity++;
+            quantityTextView.setText(String.format(Locale.US, "%d", productQuantity));
+            if (!decrementItems.isEnabled())
+                decrementItems.setEnabled(true);
+        });
+
+        decrementItems.setOnClickListener(v -> {
+            if (productQuantity > 1) {
+                decrementItems.setEnabled(true);
+                productQuantity--;
+                quantityTextView.setText(String.format(Locale.US, "%d", productQuantity));
+            } else {
+                decrementItems.setEnabled(false);
+            }
         });
 
         Picasso.get()

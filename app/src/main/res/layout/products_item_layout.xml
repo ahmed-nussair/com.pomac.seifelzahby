@@ -44,7 +44,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/_3sdp"
                     android:layout_weight="1"
-                    android:background="#edb46f"
+                    android:background="@drawable/product_details_button_background"
                     android:gravity="center"
                     android:text="@string/show_product_details"
                     android:textColor="#ffffff" />
