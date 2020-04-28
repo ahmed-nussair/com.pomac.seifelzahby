@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.pomac.seifelzahby.adapters.OnProductSelected;
 import com.pomac.seifelzahby.adapters.ProductsAdapter;
+import com.pomac.seifelzahby.viewmodel.AddingToCartViewModel;
 import com.pomac.seifelzahby.viewmodel.ProductsViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -108,7 +110,12 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         });
 
         productDetailsButton.setOnClickListener(v -> {
+            AddingToCartViewModel addingToCartViewModel = ViewModelProviders.of(this).get(AddingToCartViewModel.class);
 
+            addingToCartViewModel.getAddingToCartResponse("1", productId, productQuantity)
+                    .observe(getActivity(), response -> {
+                        
+                    });
         });
 
         Picasso.get()

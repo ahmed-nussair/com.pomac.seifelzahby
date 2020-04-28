@@ -2,6 +2,7 @@ package com.pomac.seifelzahby;
 
 public class Globals {
     public static final String PRODUCT_ID = "product_id";
+    public static int SESSION_CODE = 0;
 
     // Product fields
     public static final String PRODUCT_NAME = "product_name";

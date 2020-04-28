@@ -15,23 +15,23 @@ import retrofit2.http.Query;
 public interface CartApi {
 
     @GET("cart")
-    Observable<CartResponse> getCart(@Query("session_code") int sessionCode);
+    Observable<CartResponse> getCart(@Query("session_code") String sessionCode);
 
     @POST("cart/add")
     Observable<AddingToCartResponse> addToCart(@Field("product_id") int productId,
                                                @Field("quantity") int quantity,
-                                               @Field("session_code") int sessionCode);
+                                               @Field("session_code") String sessionCode);
 
     @POST("cart/update")
     Observable<UpdatingCartResponse> updateCart(@Field("cart_id") int cartId,
                                                 @Field("quantity") int quantity,
-                                                @Field("session_code") int sessionCode);
+                                                @Field("session_code") String sessionCode);
 
     @POST("cart/delete")
     Observable<DeletingFromCartResponse> deleteFromCart(@Field("cart_id") int cartId,
-                                                        @Field("session_code") int sessionCode);
+                                                        @Field("session_code") String sessionCode);
 
-    Observable<CheckoutResponse> checkout(@Field("session_code") int sessionCode,
+    Observable<CheckoutResponse> checkout(@Field("session_code") String sessionCode,
                                           @Field("address") String address,
                                           @Field("name") String name,
                                           @Field("phone") String phone,
