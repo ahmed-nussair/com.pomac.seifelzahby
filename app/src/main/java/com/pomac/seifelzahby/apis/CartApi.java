@@ -22,6 +22,10 @@ public interface CartApi {
                                                @Field("quantity") int quantity,
                                                @Field("session_code") String sessionCode);
 
+    @POST("cart/add")
+    Observable<AddingToCartResponse> addToCart(@Field("product_id") int productId,
+                                               @Field("quantity") int quantity);
+
     @POST("cart/update")
     Observable<UpdatingCartResponse> updateCart(@Field("cart_id") int cartId,
                                                 @Field("quantity") int quantity,

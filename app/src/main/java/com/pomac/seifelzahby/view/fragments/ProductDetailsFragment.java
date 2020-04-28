@@ -114,7 +114,7 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
 
             addingToCartViewModel.getAddingToCartResponse("1", productId, productQuantity)
                     .observe(getActivity(), response -> {
-                        
+
                     });
         });
 
