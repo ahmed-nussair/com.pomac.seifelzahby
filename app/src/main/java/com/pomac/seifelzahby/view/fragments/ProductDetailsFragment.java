@@ -1,5 +1,7 @@
 package com.pomac.seifelzahby.view.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
@@ -81,7 +84,7 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         ImageView incrementItems = getActivity().findViewById(R.id.incrementItems);
         ImageView decrementItems = getActivity().findViewById(R.id.decrementItems);
         TextView quantityTextView = getActivity().findViewById(R.id.quantityTextView);
-        Button productDetailsButton = getActivity().findViewById(R.id.productDetailsButton);
+        Button addToCartButton = getActivity().findViewById(R.id.addToCartButton);
         RecyclerView relatedProductsRecycleView = getActivity().findViewById(R.id.relatedProductsRecycleView);
 
         productCategoryMainTitle.setText(categoryName);
@@ -109,13 +112,28 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
             }
         });
 
-        productDetailsButton.setOnClickListener(v -> {
+        addToCartButton.setOnClickListener(v -> {
             AddingToCartViewModel addingToCartViewModel = ViewModelProviders.of(this).get(AddingToCartViewModel.class);
 
-            addingToCartViewModel.getAddingToCartResponse("1", productId, productQuantity)
-                    .observe(getActivity(), response -> {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
-                    });
+            if (sharedPreferences.contains(Globals.SESSION_CODE)) {
+
+                String sessionCode = sharedPreferences.getString(Globals.SESSION_CODE, "");
+                addingToCartViewModel.getAddingToCartResponse(sessionCode, productId, productQuantity)
+                        .observe(getActivity(), response -> Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_LONG).show());
+            } else {
+                addingToCartViewModel.getAddingToCartResponse(productId, productQuantity)
+                        .observe(getActivity(), response -> {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(Globals.SESSION_CODE, response.getSessionCode());
+                            boolean committed = editor.commit();
+                            if (committed)
+                                Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_LONG).show();
+                        });
+            }
+
+
         });
 
         Picasso.get()

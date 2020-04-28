@@ -2,7 +2,6 @@ package com.pomac.seifelzahby;
 
 public class Globals {
     public static final String PRODUCT_ID = "product_id";
-    public static int SESSION_CODE = 0;
 
     // Product fields
     public static final String PRODUCT_NAME = "product_name";
@@ -12,4 +11,8 @@ public class Globals {
     public static final String PRODUCT_CATEGORY_ID = "category_id";
     public static final String PRODUCT_CATEGORY_NAME = "category_name";
     public static String BASE_URL = "http://pomac.info/elzahby/public/api/";
+
+    // For shared preferences
+    public static final String SHARED_PREFERENCES = "saif_elzahaby";
+    public static final String SESSION_CODE = "session_code";
 }

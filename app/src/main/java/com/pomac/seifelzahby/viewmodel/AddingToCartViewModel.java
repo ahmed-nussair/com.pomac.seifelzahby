@@ -33,6 +33,14 @@ public class AddingToCartViewModel extends ViewModel {
         return addingToCartResponse;
     }
 
+    public LiveData<AddingToCartResponse> getAddingToCartResponse(int productId, int quantiy) {
+        if (addingToCartResponse == null) {
+            addingToCartResponse = new MutableLiveData<>();
+            onItemAdded(productId, quantiy);
+        }
+        return addingToCartResponse;
+    }
+
     private void onItemAdded(String sessionCode, int productId, int quantiy) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Globals.BASE_URL)
@@ -43,6 +51,23 @@ public class AddingToCartViewModel extends ViewModel {
         CartApi cartApi = retrofit.create(CartApi.class);
 
         Observable<AddingToCartResponse> observable = cartApi.addToCart(productId, quantiy, sessionCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        disposable = observable.subscribe(response -> addingToCartResponse.setValue(response),
+                error -> Log.e("nussair", Objects.requireNonNull(error.getMessage())));
+    }
+
+    private void onItemAdded(int productId, int quantiy) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Globals.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+
+        CartApi cartApi = retrofit.create(CartApi.class);
+
+        Observable<AddingToCartResponse> observable = cartApi.addToCart(productId, quantiy)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
