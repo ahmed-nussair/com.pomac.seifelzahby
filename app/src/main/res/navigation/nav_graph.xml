@@ -39,4 +39,9 @@
         android:name="com.pomac.seifelzahby.view.fragments.ProductDetailsFragment"
         android:label="fragment_product_details"
         tools:layout="@layout/fragment_product_details" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.pomac.seifelzahby.view.fragments.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" />
 </navigation>

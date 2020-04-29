@@ -48,4 +48,17 @@
     <string name="tax">الضريبة</string>
     <string name="activate">تفعيل</string>
     <string name="voucher_code">كود الخصم</string>
+
+    <string name="checkout_details">تفاصيل الطلب</string>
+    <string name="checkout_send">إرسال الطلب</string>
+
+    <string name="checkout_name">اسم المستخدم</string>
+    <string name="checkout_mobile">رقم الجوال</string>
+    <string name="checkout_notes">وقت التوصيل</string>
+    <string name="checkout_address">عنوان التوصيل</string>
+
+    <string name="checkout_name_label">اسم المستخدم</string>
+    <string name="checkout_mobile_label">رقم الجوال</string>
+    <string name="checkout_notes_label">وقت التوصيل</string>
+    <string name="checkout_address_label">عنوان التوصيل</string>
 </resources>

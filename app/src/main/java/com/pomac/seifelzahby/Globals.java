@@ -15,4 +15,11 @@ public class Globals {
     // For shared preferences
     public static final String SHARED_PREFERENCES = "saif_elzahaby";
     public static final String SESSION_CODE = "session_code";
+
+    // For checkout fields
+
+    public static final String CHECKOUT_NAME = "name";
+    public static final String CHECKOUT_MOBILE = "mobile";
+    public static final String CHECKOUT_NOTES = "notes";
+    public static final String CHECKOUT_ADDRESS = "address";
 }

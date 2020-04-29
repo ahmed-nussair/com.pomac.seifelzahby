@@ -30,6 +30,8 @@ import com.pomac.seifelzahby.viewmodel.UpdatingCartViewModel;
 
 import java.util.Locale;
 
+import static androidx.navigation.Navigation.findNavController;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,6 +69,10 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
         totalTextView = view.findViewById(R.id.totalTextView);
         checkoutButton = view.findViewById(R.id.checkoutButton);
         cartItemsLayout = view.findViewById(R.id.cartItemsLayout);
+
+
+        assert getActivity() != null;
+        checkoutButton.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.checkoutFragment));
 
         return view;
     }
