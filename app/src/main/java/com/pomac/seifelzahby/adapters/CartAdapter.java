@@ -67,10 +67,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
             holder.quantityTextView.setText(String.format(Locale.US, "%d", qunatity));
             updateHandler.updateCartItem(items.get(position).getId(), qunatity);
+//            notifyItemChanged(position);
+//            notifyItemRangeChanged(position, items.size());
+
         });
 
         holder.removeCartItem.setOnClickListener(v -> {
             deleteHandler.deleteCartItem(items.get(position).getId());
+            items.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, items.size());
         });
     }
 

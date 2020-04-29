@@ -57,7 +57,7 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
         noItemTextView = view.findViewById(R.id.noItemTextView);
         errorTextView = view.findViewById(R.id.errorTextView);
 
-        cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+
         return view;
     }
 
@@ -75,6 +75,7 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
             cartViewModel.getCartResponse(sessionCode).observe(activity, response -> {
                 CartAdapter adapter = new CartAdapter(getActivity(), response.getData(), this, this);
                 cartItemsRecyclerView.setAdapter(adapter);
+                cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
             });
 
