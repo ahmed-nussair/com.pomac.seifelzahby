@@ -23,11 +23,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private Context context;
     private List<CartItem> items;
     private OnUpdateCartItem updateHandler;
+    private OnDeleteCartItem deleteHandler;
 
-    public CartAdapter(Context context, List<CartItem> items, OnUpdateCartItem handler) {
+    public CartAdapter(Context context, List<CartItem> items, OnUpdateCartItem handler, OnDeleteCartItem deleteHandler) {
         this.context = context;
         this.items = items;
         this.updateHandler = handler;
+        this.deleteHandler = deleteHandler;
     }
 
     @NonNull
@@ -66,6 +68,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.quantityTextView.setText(String.format(Locale.US, "%d", qunatity));
             updateHandler.updateCartItem(items.get(position).getId(), qunatity);
         });
+
+        holder.removeCartItem.setOnClickListener(v -> {
+            deleteHandler.deleteCartItem(items.get(position).getId());
+        });
     }
 
     @Override
@@ -82,6 +88,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView quantityTextView;
         ImageView incrementItems;
         ImageView decrementItems;
+        ImageView removeCartItem;
 
         CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +99,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             quantityTextView = itemView.findViewById(R.id.quantityTextView);
             incrementItems = itemView.findViewById(R.id.incrementItems);
             decrementItems = itemView.findViewById(R.id.decrementItems);
+            removeCartItem = itemView.findViewById(R.id.removeCartItem);
         }
     }
 }

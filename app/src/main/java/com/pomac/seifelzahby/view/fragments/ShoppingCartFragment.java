@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,17 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.pomac.seifelzahby.adapters.CartAdapter;
+import com.pomac.seifelzahby.adapters.OnDeleteCartItem;
 import com.pomac.seifelzahby.adapters.OnUpdateCartItem;
-import com.pomac.seifelzahby.model.responses.CartResponse;
 import com.pomac.seifelzahby.view.activities.MainActivity;
 import com.pomac.seifelzahby.viewmodel.CartViewModel;
+import com.pomac.seifelzahby.viewmodel.DeletingFromCartViewModel;
 import com.pomac.seifelzahby.viewmodel.UpdatingCartViewModel;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem {
+public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, OnDeleteCartItem {
 
     private String sessionCode;
 
@@ -73,7 +73,7 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem {
             CartViewModel cartViewModel = ViewModelProviders.of(this).get(CartViewModel.class);
 
             cartViewModel.getCartResponse(sessionCode).observe(activity, response -> {
-                CartAdapter adapter = new CartAdapter(getActivity(), response.getData(), this);
+                CartAdapter adapter = new CartAdapter(getActivity(), response.getData(), this, this);
                 cartItemsRecyclerView.setAdapter(adapter);
 
             });
@@ -94,9 +94,17 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem {
     @Override
     public void updateCartItem(int cartItemId, int quantity) {
         assert getActivity() != null;
-        UpdatingCartViewModel updatingCartViewModel = ViewModelProviders.of(getActivity()).get(UpdatingCartViewModel.class);
+        UpdatingCartViewModel updatingCartViewModel = ViewModelProviders.of(this).get(UpdatingCartViewModel.class);
         updatingCartViewModel.getUpdatingCartResponse(cartItemId, quantity, sessionCode)
                 .observe(getActivity(), response -> Toast.makeText(getActivity(),
                         response.getMessage(), Toast.LENGTH_LONG).show());
+    }
+
+    @Override
+    public void deleteCartItem(int cartId) {
+        assert getActivity() != null;
+        DeletingFromCartViewModel deletingFromCartViewModel = ViewModelProviders.of(this).get(DeletingFromCartViewModel.class);
+        deletingFromCartViewModel.getDeletingCartItemResponse(cartId, sessionCode)
+                .observe(getActivity(), response -> Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_LONG).show());
     }
 }
