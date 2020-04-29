@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#fafafa"
     android:orientation="vertical"
     tools:context=".view.fragments.ShoppingCartFragment">
 
@@ -29,6 +29,12 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cartItemsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/noItemTextView"
         android:layout_width="match_parent"
@@ -41,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/no_item_in_the_cart"
+        android:text="@string/error_loading_cart"
         android:visibility="gone" />
 
 </LinearLayout>

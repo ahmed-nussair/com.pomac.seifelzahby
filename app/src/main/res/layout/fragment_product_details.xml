@@ -111,7 +111,8 @@
                 android:text="@string/add_to_cart"
                 android:textColor="#ffffff" />
 
-            <RelativeLayout
+            <include
+                layout="@layout/item_quantity_layout"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_alignWithParentIfMissing="true"
@@ -119,45 +120,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="@drawable/quantity_bar_background"
-                android:padding="@dimen/_5sdp">
-
-                <ImageView
-                    android:id="@+id/incrementItems"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:background="@drawable/quantity_button_background"
-                    android:padding="@dimen/_2sdp"
-                    android:src="@drawable/increment"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/quantityTextView"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:text="@string/quantity_initial_value"
-                    android:textColor="#ffffff" />
-
-                <ImageView
-                    android:id="@+id/decrementItems"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:background="@drawable/quantity_button_background"
-                    android:padding="@dimen/_2sdp"
-                    android:src="@drawable/decrement"
-                    tools:ignore="ContentDescription" />
-
-            </RelativeLayout>
+                android:padding="@dimen/_5sdp" />
 
         </RelativeLayout>
 
