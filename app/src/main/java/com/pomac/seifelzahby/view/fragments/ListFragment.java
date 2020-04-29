@@ -17,7 +17,7 @@ import com.pomac.seifelzahby.adapters.OnCategorySelected;
 import com.pomac.seifelzahby.adapters.CategoriesAdapter;
 import com.pomac.seifelzahby.adapters.OnSecondaryCategoryItemSelected;
 import com.pomac.seifelzahby.adapters.SecondaryCategoriesAdapter;
-import com.pomac.seifelzahby.view.Navigator;
+import com.pomac.seifelzahby.view.AppNavigator;
 import com.pomac.seifelzahby.viewmodel.CategoriesViewModel;
 
 
@@ -27,7 +27,7 @@ import com.pomac.seifelzahby.viewmodel.CategoriesViewModel;
 public class ListFragment extends Fragment implements OnCategorySelected, OnSecondaryCategoryItemSelected {
 
     private boolean secondaryCategoriesIntialized;
-    private Navigator navigator;
+    private AppNavigator appNavigator;
 
     private RecyclerView secondaryCategoriesRecyclerView;
 
@@ -47,7 +47,7 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         secondaryCategoriesIntialized = false;
-        navigator = (Navigator) getActivity();
+        appNavigator = (AppNavigator) getActivity();
 
         assert getActivity() != null;
         CategoriesViewModel model = ViewModelProviders.of(this).get(CategoriesViewModel.class);
@@ -81,6 +81,6 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
 
     @Override
     public void onItemSelected(int itemId, String itemTitle) {
-        navigator.onSecondaryCategoryItemSelected(itemId, itemTitle);
+        appNavigator.onSecondaryCategoryItemSelected(itemId, itemTitle);
     }
 }

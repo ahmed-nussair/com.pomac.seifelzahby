@@ -1,18 +1,16 @@
 package com.pomac.seifelzahby.view.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pomac.seifelzahby.R;
-import com.pomac.seifelzahby.view.Navigator;
+import com.pomac.seifelzahby.view.AppNavigator;
 
 import static androidx.navigation.Navigation.findNavController;
 
-public class MainActivity extends AppCompatActivity implements Navigator {
+public class MainActivity extends AppCompatActivity implements AppNavigator {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -54,5 +52,11 @@ public class MainActivity extends AppCompatActivity implements Navigator {
         bundle.putInt("categoryId", itemId);
         bundle.putString("categoryTitle", itemTitle);
         findNavController(findViewById(R.id.nav_host)).navigate(R.id.productsFragment, bundle);
+    }
+
+    @Override
+    public void onCheckoutCompleted() {
+        bottomNavigationView.setSelectedItemId(R.id.navigation_main);
+        findNavController(findViewById(R.id.nav_host)).navigate(R.id.mainFragment);
     }
 }

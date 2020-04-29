@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
+import com.pomac.seifelzahby.view.AppNavigator;
 import com.pomac.seifelzahby.viewmodel.CheckoutViewModel;
 
 import java.util.HashMap;
@@ -57,9 +58,30 @@ public class CheckoutFragment extends Fragment {
         backToShoppingCartScreen = view.findViewById(R.id.backToShoppingCartScreen);
 
         assert getActivity() != null;
+
+        AppNavigator appNavigator = (AppNavigator) getActivity();
         backToShoppingCartScreen.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment));
 
         checkoutSendButton.setOnClickListener(v -> {
+            if (checkoutNameEditText.getText().toString().trim().equals("")) {
+                Toast.makeText(getActivity(), "من فضلك أدخل اسم المستخدم", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (checkoutMobileEditText.getText().toString().trim().equals("")) {
+                Toast.makeText(getActivity(), "من فضلك أدخل الموبايل", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (checkoutNotesEditText.getText().toString().trim().equals("")) {
+                Toast.makeText(getActivity(), "من فضلك أدخل وقت التوصيل", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (checkoutAddressEditText.getText().toString().trim().equals("")) {
+                Toast.makeText(getActivity(), "من فضلك أدخل عنوان التوصيل", Toast.LENGTH_LONG).show();
+                return;
+            }
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
             String sessionCode = sharedPreferences.getString(Globals.SESSION_CODE, "");
 
@@ -81,7 +103,7 @@ public class CheckoutFragment extends Fragment {
                 editor.remove(Globals.SESSION_CODE);
                 if (editor.commit()) {
                     Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_LONG).show();
-                    findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.mainFragment);
+                    appNavigator.onCheckoutCompleted();
                 }
             });
 
