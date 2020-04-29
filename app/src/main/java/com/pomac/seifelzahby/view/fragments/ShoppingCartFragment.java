@@ -3,9 +3,12 @@ package com.pomac.seifelzahby.view.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,8 @@ import com.pomac.seifelzahby.viewmodel.CartViewModel;
 import com.pomac.seifelzahby.viewmodel.DeletingFromCartViewModel;
 import com.pomac.seifelzahby.viewmodel.UpdatingCartViewModel;
 
+import java.util.Locale;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,10 +38,13 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
 
     private String sessionCode;
 
+    private LinearLayout cartItemsLayout;
     private RecyclerView cartItemsRecyclerView;
     private TextView noItemTextView;
     private TextView errorTextView;
     private MainActivity activity;
+    private TextView totalTextView;
+    private Button checkoutButton;
 
     public ShoppingCartFragment() {
         // Required empty public constructor
@@ -56,7 +64,9 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
         cartItemsRecyclerView = view.findViewById(R.id.cartItemsRecyclerView);
         noItemTextView = view.findViewById(R.id.noItemTextView);
         errorTextView = view.findViewById(R.id.errorTextView);
-
+        totalTextView = view.findViewById(R.id.totalTextView);
+        checkoutButton = view.findViewById(R.id.checkoutButton);
+        cartItemsLayout = view.findViewById(R.id.cartItemsLayout);
 
         return view;
     }
@@ -65,6 +75,11 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        loadCartItems();
+
+    }
+
+    private void loadCartItems() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(Globals.SESSION_CODE)) {
 
@@ -73,23 +88,25 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
             CartViewModel cartViewModel = ViewModelProviders.of(this).get(CartViewModel.class);
 
             cartViewModel.getCartResponse(sessionCode).observe(activity, response -> {
-                CartAdapter adapter = new CartAdapter(getActivity(), response.getData(), this, this);
-                cartItemsRecyclerView.setAdapter(adapter);
-                cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                Log.d("nussair", "invoked");
 
+                CartAdapter adapter = new CartAdapter(getActivity(),
+                        response.getData(), this, this);
+                cartItemsRecyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                totalTextView.setText(String.format("%sرس", String.format(Locale.US, "%.0f", response.getTotal())));
             });
 
-            cartItemsRecyclerView.setVisibility(View.VISIBLE);
+            cartItemsLayout.setVisibility(View.VISIBLE);
             noItemTextView.setVisibility(View.GONE);
             errorTextView.setVisibility(View.GONE);
 
         } else {
-            cartItemsRecyclerView.setVisibility(View.GONE);
+            cartItemsLayout.setVisibility(View.GONE);
             noItemTextView.setVisibility(View.VISIBLE);
             errorTextView.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -99,6 +116,8 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
         updatingCartViewModel.getUpdatingCartResponse(cartItemId, quantity, sessionCode)
                 .observe(getActivity(), response -> Toast.makeText(getActivity(),
                         response.getMessage(), Toast.LENGTH_LONG).show());
+
+//        loadCartItems();
     }
 
     @Override
@@ -107,5 +126,7 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
         DeletingFromCartViewModel deletingFromCartViewModel = ViewModelProviders.of(this).get(DeletingFromCartViewModel.class);
         deletingFromCartViewModel.getDeletingCartItemResponse(cartId, sessionCode)
                 .observe(getActivity(), response -> Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_LONG).show());
+
+//        loadCartItems();
     }
 }

@@ -41,4 +41,11 @@
     <string name="quantity_initial_value">1</string>
 
     <string name="related_products">منتجات ذات صلة</string>
+
+    <string name="total">الإجمالي</string>
+    <string name="check_out">تابع طلبك</string>
+    <string name="items_total">سعر الطلب</string>
+    <string name="tax">الضريبة</string>
+    <string name="activate">تفعيل</string>
+    <string name="voucher_code">كود الخصم</string>
 </resources>
