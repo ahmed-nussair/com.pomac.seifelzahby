@@ -3,62 +3,79 @@ package com.pomac.seifelzahby.view.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.pomac.seifelzahby.adapters.CartAdapter;
+import com.pomac.seifelzahby.adapters.OnUpdateCartItem;
+import com.pomac.seifelzahby.model.responses.CartResponse;
+import com.pomac.seifelzahby.view.activities.MainActivity;
 import com.pomac.seifelzahby.viewmodel.CartViewModel;
+import com.pomac.seifelzahby.viewmodel.UpdatingCartViewModel;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShoppingCartFragment extends Fragment {
+public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem {
+
+    private String sessionCode;
+
+    private RecyclerView cartItemsRecyclerView;
+    private TextView noItemTextView;
+    private TextView errorTextView;
+    private MainActivity activity;
 
     public ShoppingCartFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (MainActivity) getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopping_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_shopping_cart, container, false);
+
+        cartItemsRecyclerView = view.findViewById(R.id.cartItemsRecyclerView);
+        noItemTextView = view.findViewById(R.id.noItemTextView);
+        errorTextView = view.findViewById(R.id.errorTextView);
+
+        cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        assert getActivity() != null;
-        RecyclerView cartItemsRecyclerView = getActivity().findViewById(R.id.cartItemsRecyclerView);
-        TextView noItemTextView = getActivity().findViewById(R.id.noItemTextView);
-        TextView errorTextView = getActivity().findViewById(R.id.errorTextView);
-
-        cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(Globals.SESSION_CODE)) {
 
-            String sessionCode = sharedPreferences.getString(Globals.SESSION_CODE, "");
+            sessionCode = sharedPreferences.getString(Globals.SESSION_CODE, "");
 
-            CartViewModel cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
+            CartViewModel cartViewModel = ViewModelProviders.of(this).get(CartViewModel.class);
 
-            cartViewModel.getCartResponse(sessionCode).observe(getActivity(), response -> {
-                CartAdapter adapter = new CartAdapter(getActivity(), response.getData());
+            cartViewModel.getCartResponse(sessionCode).observe(activity, response -> {
+                CartAdapter adapter = new CartAdapter(getActivity(), response.getData(), this);
                 cartItemsRecyclerView.setAdapter(adapter);
+
             });
 
             cartItemsRecyclerView.setVisibility(View.VISIBLE);
@@ -71,5 +88,15 @@ public class ShoppingCartFragment extends Fragment {
             errorTextView.setVisibility(View.GONE);
         }
 
+
+    }
+
+    @Override
+    public void updateCartItem(int cartItemId, int quantity) {
+        assert getActivity() != null;
+        UpdatingCartViewModel updatingCartViewModel = ViewModelProviders.of(getActivity()).get(UpdatingCartViewModel.class);
+        updatingCartViewModel.getUpdatingCartResponse(cartItemId, quantity, sessionCode)
+                .observe(getActivity(), response -> Toast.makeText(getActivity(),
+                        response.getMessage(), Toast.LENGTH_LONG).show());
     }
 }

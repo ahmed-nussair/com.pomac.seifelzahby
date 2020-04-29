@@ -7,6 +7,7 @@ import com.pomac.seifelzahby.model.responses.DeletingFromCartResponse;
 import com.pomac.seifelzahby.model.responses.UpdatingCartResponse;
 
 import io.reactivex.Observable;
+//import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -47,4 +48,38 @@ public interface CartApi {
                                           @Field("name") String name,
                                           @Field("phone") String phone,
                                           @Field("notes") String notes);
+
+//    @GET("cart")
+//    Call<CartResponse> getCart(@Query("session_code") String sessionCode);
+//
+//    @FormUrlEncoded
+//    @POST("cart/add")
+//    Call<AddingToCartResponse> addToCart(@Field("product_id") int productId,
+//                                         @Field("quantity") int quantity,
+//                                         @Field("session_code") String sessionCode);
+//
+//    @FormUrlEncoded
+//    @POST("cart/add")
+//    Call<AddingToCartResponse> addToCart(@Field("product_id") int productId,
+//                                               @Field("quantity") int quantity);
+//
+//    @FormUrlEncoded
+//    @POST("cart/update")
+//    Call<UpdatingCartResponse> updateCart(@Field("cart_id") int cartId,
+//                                                @Field("quantity") int quantity,
+//                                                @Field("session_code") String sessionCode);
+//
+//    @FormUrlEncoded
+//    @POST("cart/delete")
+//    Call<DeletingFromCartResponse> deleteFromCart(@Field("cart_id") int cartId,
+//                                                        @Field("session_code") String sessionCode);
+//
+//    @FormUrlEncoded
+//    @POST("checkout")
+//    Call<CheckoutResponse> checkout(@Field("session_code") String sessionCode,
+//                                          @Field("address") String address,
+//                                          @Field("name") String name,
+//                                          @Field("phone") String phone,
+//                                          @Field("notes") String notes);
+
 }

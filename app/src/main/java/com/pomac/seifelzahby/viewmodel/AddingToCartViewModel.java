@@ -16,6 +16,9 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+//import retrofit2.Call;
+//import retrofit2.Callback;
+//import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -50,6 +53,20 @@ public class AddingToCartViewModel extends ViewModel {
 
         CartApi cartApi = retrofit.create(CartApi.class);
 
+//        Call<AddingToCartResponse> addingToCartResponseCall = cartApi.addToCart(productId, quantiy, sessionCode);
+//
+//        addingToCartResponseCall.enqueue(new Callback<AddingToCartResponse>() {
+//            @Override
+//            public void onResponse(Call<AddingToCartResponse> call, Response<AddingToCartResponse> response) {
+//                addingToCartResponse.setValue(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<AddingToCartResponse> call, Throwable t) {
+//                Log.e("nussair", Objects.requireNonNull(t.getMessage()));
+//            }
+//        });
+
         Observable<AddingToCartResponse> observable = cartApi.addToCart(productId, quantiy, sessionCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -66,6 +83,20 @@ public class AddingToCartViewModel extends ViewModel {
                 .build();
 
         CartApi cartApi = retrofit.create(CartApi.class);
+//
+//        Call<AddingToCartResponse> addingToCartResponseCall = cartApi.addToCart(productId, quantiy);
+//
+//        addingToCartResponseCall.enqueue(new Callback<AddingToCartResponse>() {
+//            @Override
+//            public void onResponse(Call<AddingToCartResponse> call, Response<AddingToCartResponse> response) {
+//                addingToCartResponse.setValue(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<AddingToCartResponse> call, Throwable t) {
+//                Log.e("nussair", Objects.requireNonNull(t.getMessage()));
+//            }
+//        });
 
         Observable<AddingToCartResponse> observable = cartApi.addToCart(productId, quantiy)
                 .subscribeOn(Schedulers.io())

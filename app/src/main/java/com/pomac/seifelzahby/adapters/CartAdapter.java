@@ -1,6 +1,7 @@
 package com.pomac.seifelzahby.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,18 @@ import com.pomac.seifelzahby.model.CartItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     private Context context;
     private List<CartItem> items;
+    private OnUpdateCartItem updateHandler;
 
-    public CartAdapter(Context context, List<CartItem> items) {
+    public CartAdapter(Context context, List<CartItem> items, OnUpdateCartItem handler) {
         this.context = context;
         this.items = items;
+        this.updateHandler = handler;
     }
 
     @NonNull
@@ -36,6 +40,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
+
         Picasso.get()
                 .load(items.get(position).getProduct().getImagePath())
                 .placeholder(R.drawable.loading)
@@ -44,6 +49,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.cartItemName.setText(items.get(position).getProduct().getName());
         holder.cartItemDescription.setText(items.get(position).getProduct().getDescription());
         holder.cartItemPrice.setText(String.format("%sرس", items.get(position).getProduct().getPrice()));
+        holder.quantityTextView.setText(items.get(position).getQuantity());
+        holder.incrementItems.setOnClickListener(v -> {
+            int qunatity = Integer.parseInt(holder.quantityTextView.getText().toString());
+            qunatity++;
+            holder.quantityTextView.setText(String.format(Locale.US, "%d", qunatity));
+            updateHandler.updateCartItem(items.get(position).getId(), qunatity);
+
+        });
+
+        holder.decrementItems.setOnClickListener(v -> {
+            int qunatity = Integer.parseInt(holder.quantityTextView.getText().toString());
+            if (qunatity > 1) {
+                qunatity--;
+            }
+            holder.quantityTextView.setText(String.format(Locale.US, "%d", qunatity));
+            updateHandler.updateCartItem(items.get(position).getId(), qunatity);
+        });
     }
 
     @Override
@@ -57,6 +79,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView cartItemName;
         TextView cartItemDescription;
         TextView cartItemPrice;
+        TextView quantityTextView;
+        ImageView incrementItems;
+        ImageView decrementItems;
 
         CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +89,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             cartItemName = itemView.findViewById(R.id.cartItemName);
             cartItemDescription = itemView.findViewById(R.id.cartItemDescription);
             cartItemPrice = itemView.findViewById(R.id.cartItemPrice);
+            quantityTextView = itemView.findViewById(R.id.quantityTextView);
+            incrementItems = itemView.findViewById(R.id.incrementItems);
+            decrementItems = itemView.findViewById(R.id.decrementItems);
         }
     }
 }
