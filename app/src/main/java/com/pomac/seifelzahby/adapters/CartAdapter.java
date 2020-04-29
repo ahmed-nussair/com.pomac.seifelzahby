@@ -1,6 +1,7 @@
 package com.pomac.seifelzahby.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.pomac.seifelzahby.model.CartItem;
 import com.squareup.picasso.Picasso;
@@ -78,6 +80,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, items.size());
             notifyDataSetChanged();
+
+            SharedPreferences sharedPreferences = context.getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+            if (items.isEmpty()) {
+
+
+                editor.remove(Globals.SESSION_CODE);
+                editor.remove(Globals.ITEMS_NUMBER);
+
+                deleteHandler.onAlItemsDeleted();
+            } else {
+                int num = sharedPreferences.getInt(Globals.ITEMS_NUMBER, 0);
+
+                num--;
+                editor.putInt(Globals.ITEMS_NUMBER, num);
+            }
+
+            if (editor.commit()) {
+                Log.d("nussair", "Committed");
+            }
         });
     }
 
@@ -96,6 +120,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         ImageView incrementItems;
         ImageView decrementItems;
         ImageView removeCartItem;
+        TextView itemsNumber;
 
         CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,6 +132,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             incrementItems = itemView.findViewById(R.id.incrementItems);
             decrementItems = itemView.findViewById(R.id.decrementItems);
             removeCartItem = itemView.findViewById(R.id.removeCartItem);
+            itemsNumber = itemView.findViewById(R.id.itemsNumber);
         }
     }
 }

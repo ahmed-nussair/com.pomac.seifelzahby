@@ -135,4 +135,11 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
 
 //        loadCartItems();
     }
+
+    @Override
+    public void onAlItemsDeleted() {
+        cartItemsLayout.setVisibility(View.GONE);
+        noItemTextView.setVisibility(View.VISIBLE);
+        errorTextView.setVisibility(View.GONE);
+    }
 }

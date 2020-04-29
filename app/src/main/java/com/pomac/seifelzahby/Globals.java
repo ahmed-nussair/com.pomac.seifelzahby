@@ -15,6 +15,7 @@ public class Globals {
     // For shared preferences
     public static final String SHARED_PREFERENCES = "saif_elzahaby";
     public static final String SESSION_CODE = "session_code";
+    public static final String ITEMS_NUMBER = "items_number";
 
     // For checkout fields
 

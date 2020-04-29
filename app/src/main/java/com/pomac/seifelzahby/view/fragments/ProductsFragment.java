@@ -1,5 +1,7 @@
 package com.pomac.seifelzahby.view.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.pomac.seifelzahby.adapters.OnProductSelected;
 import com.pomac.seifelzahby.adapters.ProductsAdapter;
 import com.pomac.seifelzahby.viewmodel.ProductsViewModel;
 
+import java.util.Locale;
 import java.util.Map;
 
 import static androidx.navigation.Navigation.findNavController;
@@ -30,6 +33,7 @@ import static androidx.navigation.Navigation.findNavController;
 public class ProductsFragment extends Fragment implements OnProductSelected {
 
     private int categoryId;
+    private TextView itemsNumber;
 
     public ProductsFragment() {
         // Required empty public constructor
@@ -39,8 +43,10 @@ public class ProductsFragment extends Fragment implements OnProductSelected {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_products, container, false);
+        View view = inflater.inflate(R.layout.fragment_products, container, false);
+        itemsNumber = view.findViewById(R.id.itemsNumber);
+
+        return view;
     }
 
     @Override
@@ -52,6 +58,14 @@ public class ProductsFragment extends Fragment implements OnProductSelected {
         String categoryTitle = getArguments().getString("categoryTitle");
 
         assert getActivity() != null;
+        itemsNumber.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment));
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedPreferences.contains(Globals.ITEMS_NUMBER)) {
+            itemsNumber.setVisibility(View.VISIBLE);
+            itemsNumber.setText(String.format(Locale.US, "%d", sharedPreferences.getInt(Globals.ITEMS_NUMBER, 0)));
+        } else {
+            itemsNumber.setVisibility(View.GONE);
+        }
         RecyclerView productsRecyclerView = getActivity().findViewById(R.id.productsRecyclerView);
         TextView categoryTitleTextView = getActivity().findViewById(R.id.categoryMainTitle);
         ImageView back = getActivity().findViewById(R.id.back);

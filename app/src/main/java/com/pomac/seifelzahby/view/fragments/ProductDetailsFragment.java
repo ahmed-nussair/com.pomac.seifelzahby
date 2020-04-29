@@ -45,6 +45,7 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
     private String productDescription;
     private String productPrice;
     private String productImagePath;
+    private TextView itemsNumber;
 
     private int productQuantity;
 
@@ -56,8 +57,9 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_product_details, container, false);
+        itemsNumber = view.findViewById(R.id.itemsNumber);
+        return view;
     }
 
     @Override
@@ -67,6 +69,7 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         productQuantity = 1;
 
         assert getArguments() != null;
+
         categoryId = getArguments().getInt(Globals.PRODUCT_CATEGORY_ID, -1);
         categoryName = getArguments().getString(Globals.PRODUCT_CATEGORY_NAME);
         productId = getArguments().getInt(Globals.PRODUCT_ID, -1);
@@ -76,6 +79,14 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         productImagePath = getArguments().getString(Globals.PRODUCT_IMAGE_PATH);
 
         assert getActivity() != null;
+        itemsNumber.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment));
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedPreferences.contains(Globals.ITEMS_NUMBER)) {
+            itemsNumber.setVisibility(View.VISIBLE);
+            itemsNumber.setText(String.format(Locale.US, "%d", sharedPreferences.getInt(Globals.ITEMS_NUMBER, 0)));
+        } else {
+            itemsNumber.setVisibility(View.GONE);
+        }
         TextView productCategoryMainTitle = getActivity().findViewById(R.id.productCategoryMainTitle);
         ImageView backToProductsList = getActivity().findViewById(R.id.backToProductsList);
         ImageView productImageView = getActivity().findViewById(R.id.productDetailsImage);
@@ -115,21 +126,29 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         addToCartButton.setOnClickListener(v -> {
             AddingToCartViewModel addingToCartViewModel = ViewModelProviders.of(this).get(AddingToCartViewModel.class);
 
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-
             if (sharedPreferences.contains(Globals.SESSION_CODE)) {
 
                 String sessionCode = sharedPreferences.getString(Globals.SESSION_CODE, "");
-                addingToCartViewModel.getAddingToCartResponse(sessionCode, productId, productQuantity)
+                int itemsNum = sharedPreferences.getInt(Globals.ITEMS_NUMBER, 0);
+                itemsNum++;
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(Globals.ITEMS_NUMBER, itemsNum);
+                itemsNumber.setText(String.format(Locale.US, "%d", itemsNum));
+                if (editor.commit())
+                    addingToCartViewModel.getAddingToCartResponse(sessionCode, productId, productQuantity)
                         .observe(getActivity(), response -> Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_LONG).show());
             } else {
                 addingToCartViewModel.getAddingToCartResponse(productId, productQuantity)
                         .observe(getActivity(), response -> {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(Globals.SESSION_CODE, response.getSessionCode());
+                            editor.putInt(Globals.ITEMS_NUMBER, 1);
                             boolean committed = editor.commit();
-                            if (committed)
+                            if (committed) {
+                                itemsNumber.setText(String.format(Locale.US, "%d", sharedPreferences.getInt(Globals.ITEMS_NUMBER, 0)));
+                                itemsNumber.setVisibility(View.VISIBLE);
                                 Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         });
             }
 

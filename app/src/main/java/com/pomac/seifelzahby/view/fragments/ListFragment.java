@@ -1,5 +1,7 @@
 package com.pomac.seifelzahby.view.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.pomac.seifelzahby.adapters.OnCategorySelected;
 import com.pomac.seifelzahby.adapters.CategoriesAdapter;
@@ -19,6 +23,10 @@ import com.pomac.seifelzahby.adapters.OnSecondaryCategoryItemSelected;
 import com.pomac.seifelzahby.adapters.SecondaryCategoriesAdapter;
 import com.pomac.seifelzahby.view.AppNavigator;
 import com.pomac.seifelzahby.viewmodel.CategoriesViewModel;
+
+import java.util.Locale;
+
+import static androidx.navigation.Navigation.findNavController;
 
 
 /**
@@ -31,6 +39,8 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
 
     private RecyclerView secondaryCategoriesRecyclerView;
 
+    private TextView itemsNumber;
+
     public ListFragment() {
         // Required empty public constructor
     }
@@ -39,8 +49,9 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        itemsNumber = view.findViewById(R.id.itemsNumber);
+        return view;
     }
 
     @Override
@@ -50,6 +61,13 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
         appNavigator = (AppNavigator) getActivity();
 
         assert getActivity() != null;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedPreferences.contains(Globals.ITEMS_NUMBER)) {
+            itemsNumber.setVisibility(View.VISIBLE);
+            itemsNumber.setText(String.format(Locale.US, "%d", sharedPreferences.getInt(Globals.ITEMS_NUMBER, 0)));
+        } else {
+            itemsNumber.setVisibility(View.GONE);
+        }
         CategoriesViewModel model = ViewModelProviders.of(this).get(CategoriesViewModel.class);
         RecyclerView categoriesRecyclerView = getActivity().findViewById(R.id.categoriesRecyclerView);
         secondaryCategoriesRecyclerView = getActivity().findViewById(R.id.secondaryCategoriesRecyclerView);
@@ -71,6 +89,8 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
 
 
         });
+
+        itemsNumber.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment));
     }
 
     @Override

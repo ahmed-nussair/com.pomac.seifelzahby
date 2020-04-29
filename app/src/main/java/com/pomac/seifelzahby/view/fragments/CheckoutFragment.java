@@ -101,6 +101,7 @@ public class CheckoutFragment extends Fragment {
             checkoutViewModel.getCheckoutResponse(sessionCode, checkoutData).observe(getActivity(), response -> {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove(Globals.SESSION_CODE);
+                editor.remove(Globals.ITEMS_NUMBER);
                 if (editor.commit()) {
                     Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_LONG).show();
                     appNavigator.onCheckoutCompleted();
