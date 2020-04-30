@@ -90,7 +90,8 @@ public class ListFragment extends Fragment implements OnCategorySelected, OnSeco
 
         });
 
-        itemsNumber.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment));
+        itemsNumber.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host))
+                .navigate(R.id.shoppingCartFragment));
     }
 
     @Override
