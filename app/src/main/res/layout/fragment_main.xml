@@ -41,31 +41,37 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_alignParentStart="true" />
 
-                <EditText
-                    android:id="@+id/editText0"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/search"
-                    android:inputType="text">
-
-                    <requestFocus />
-                </EditText>
-
-                <EditText
-                    android:id="@+id/searchEditText"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:autofillHints="@string/search"
-                    android:background="@drawable/search_background"
-                    android:drawableStart="@drawable/search"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/search"
-                    android:inputType="text"
-                    android:padding="@dimen/_10sdp" />
+                    tools:ignore="UselessParent">
+
+                    <EditText
+                        android:id="@+id/searchEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:background="@drawable/search_background"
+                        android:hint="@string/search"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:paddingStart="@dimen/_40sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp" />
+
+                    <ImageView
+                        android:id="@+id/searchImageView"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:src="@drawable/search"
+                        tools:ignore="ContentDescription" />
+                </RelativeLayout>
 
             </RelativeLayout>
 

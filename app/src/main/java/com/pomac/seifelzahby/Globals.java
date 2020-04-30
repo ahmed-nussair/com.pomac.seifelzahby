@@ -23,4 +23,8 @@ public class Globals {
     public static final String CHECKOUT_MOBILE = "mobile";
     public static final String CHECKOUT_NOTES = "notes";
     public static final String CHECKOUT_ADDRESS = "address";
+
+    // For search
+
+    public static final String SEARCH_KEYWORD = "keyword";
 }

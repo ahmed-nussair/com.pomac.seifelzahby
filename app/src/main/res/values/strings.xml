@@ -61,4 +61,7 @@
     <string name="checkout_mobile_label">رقم الجوال</string>
     <string name="checkout_notes_label">وقت التوصيل</string>
     <string name="checkout_address_label">عنوان التوصيل</string>
+
+    <string name="search_result">نتائج البحث</string>
+    <string name="no_search_result">عفوا لا يوجد نتائج للبحث</string>
 </resources>

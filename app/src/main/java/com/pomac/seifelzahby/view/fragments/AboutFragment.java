@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
+import com.pomac.seifelzahby.view.AppNavigator;
 
 import java.util.Locale;
 
@@ -26,6 +27,7 @@ import static androidx.navigation.Navigation.findNavController;
 public class AboutFragment extends Fragment {
 
     private TextView itemsNumber;
+    private AppNavigator navigator;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -44,6 +46,7 @@ public class AboutFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         assert getActivity() != null;
+        navigator = (AppNavigator) getActivity();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(Globals.ITEMS_NUMBER)) {
             itemsNumber.setVisibility(View.VISIBLE);
@@ -51,6 +54,6 @@ public class AboutFragment extends Fragment {
         } else {
             itemsNumber.setVisibility(View.GONE);
         }
-        itemsNumber.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment));
+        itemsNumber.setOnClickListener(v -> navigator.onNavigateToShoppingCart());
     }
 }

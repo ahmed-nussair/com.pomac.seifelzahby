@@ -60,4 +60,10 @@ public class MainActivity extends AppCompatActivity implements AppNavigator {
         bottomNavigationView.setSelectedItemId(R.id.navigation_main);
         findNavController(findViewById(R.id.nav_host)).navigate(R.id.mainFragment);
     }
+
+    @Override
+    public void onNavigateToShoppingCart() {
+        bottomNavigationView.setSelectedItemId(R.id.navigation_shopping_cart);
+        findNavController(findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment);
+    }
 }

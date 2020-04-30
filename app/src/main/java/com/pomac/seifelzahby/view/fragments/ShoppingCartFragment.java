@@ -94,7 +94,6 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
             CartViewModel cartViewModel = ViewModelProviders.of(this).get(CartViewModel.class);
 
             cartViewModel.getCartResponse(sessionCode).observe(activity, response -> {
-                Log.d("nussair", "invoked");
 
                 CartAdapter adapter = new CartAdapter(getActivity(),
                         response.getData(), this, this);
@@ -123,17 +122,18 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
                 .observe(getActivity(), response -> Toast.makeText(getActivity(),
                         response.getMessage(), Toast.LENGTH_LONG).show());
 
-//        loadCartItems();
+//        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment);
     }
 
     @Override
     public void deleteCartItem(int cartId) {
         assert getActivity() != null;
+
         DeletingFromCartViewModel deletingFromCartViewModel = ViewModelProviders.of(this).get(DeletingFromCartViewModel.class);
         deletingFromCartViewModel.getDeletingCartItemResponse(cartId, sessionCode)
                 .observe(getActivity(), response -> Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_LONG).show());
 
-//        loadCartItems();
+//        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment);
     }
 
     @Override

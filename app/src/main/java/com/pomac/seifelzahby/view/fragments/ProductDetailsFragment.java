@@ -23,6 +23,7 @@ import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.pomac.seifelzahby.adapters.OnProductSelected;
 import com.pomac.seifelzahby.adapters.ProductsAdapter;
+import com.pomac.seifelzahby.view.AppNavigator;
 import com.pomac.seifelzahby.viewmodel.AddingToCartViewModel;
 import com.pomac.seifelzahby.viewmodel.ProductsViewModel;
 import com.squareup.picasso.Picasso;
@@ -46,6 +47,8 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
     private String productPrice;
     private String productImagePath;
     private TextView itemsNumber;
+
+    private AppNavigator navigator;
 
     private int productQuantity;
 
@@ -79,7 +82,8 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         productImagePath = getArguments().getString(Globals.PRODUCT_IMAGE_PATH);
 
         assert getActivity() != null;
-        itemsNumber.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment));
+        navigator = (AppNavigator) getActivity();
+        itemsNumber.setOnClickListener(v -> navigator.onNavigateToShoppingCart());
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(Globals.ITEMS_NUMBER)) {
             itemsNumber.setVisibility(View.VISIBLE);
@@ -164,20 +168,23 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         productDesctipionTextView.setText(productDescription);
         productPriceTextView.setText(String.format("%s رس", productPrice));
 
-        relatedProductsRecycleView.setLayoutManager(new GridLayoutManager(getContext(), 2,
-                GridLayoutManager.VERTICAL, false));
+        if (categoryId != -1) {
+            relatedProductsRecycleView.setLayoutManager(new GridLayoutManager(getContext(), 2,
+                    GridLayoutManager.VERTICAL, false));
 
 //        relatedProductsRecycleView.setNestedScrollingEnabled(false);
 
-        ProductsViewModel model = ViewModelProviders.of(this).get(ProductsViewModel.class);
+            ProductsViewModel model = ViewModelProviders.of(this).get(ProductsViewModel.class);
 
-        assert getActivity() != null;
-        model.getProductsResponse(categoryId).observe(getActivity(), response -> {
+            assert getActivity() != null;
+            model.getProductsResponse(categoryId).observe(getActivity(), response -> {
 
-            ProductsAdapter adapter = new ProductsAdapter(getContext(), response.getData(), this);
-            relatedProductsRecycleView.setAdapter(adapter);
+                ProductsAdapter adapter = new ProductsAdapter(getContext(), response.getData(), this);
+                relatedProductsRecycleView.setAdapter(adapter);
 
-        });
+            });
+        }
+
     }
 
     @Override
