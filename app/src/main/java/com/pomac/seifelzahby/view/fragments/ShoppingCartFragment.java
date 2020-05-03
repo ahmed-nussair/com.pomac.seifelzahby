@@ -122,7 +122,8 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
                 .observe(getActivity(), response -> Toast.makeText(getActivity(),
                         response.getMessage(), Toast.LENGTH_LONG).show());
 
-//        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment);
+        assert getActivity() != null;
+        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment);
     }
 
     @Override
@@ -133,7 +134,8 @@ public class ShoppingCartFragment extends Fragment implements OnUpdateCartItem, 
         deletingFromCartViewModel.getDeletingCartItemResponse(cartId, sessionCode)
                 .observe(getActivity(), response -> Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_LONG).show());
 
-//        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment);
+        assert getActivity() != null;
+        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.shoppingCartFragment);
     }
 
     @Override

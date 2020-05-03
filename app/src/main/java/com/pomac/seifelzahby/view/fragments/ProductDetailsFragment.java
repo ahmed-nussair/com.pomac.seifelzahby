@@ -104,10 +104,16 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
 
         productCategoryMainTitle.setText(categoryName);
         backToProductsList.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putInt("categoryId", categoryId);
-            bundle.putString("categoryTitle", categoryName);
-            findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.productsFragment, bundle);
+
+            if (categoryId != -1) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("categoryId", categoryId);
+                bundle.putString("categoryTitle", categoryName);
+                findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.productsFragment, bundle);
+            } else {
+                findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.mainFragment);
+            }
+
         });
 
         incrementItems.setOnClickListener(v -> {

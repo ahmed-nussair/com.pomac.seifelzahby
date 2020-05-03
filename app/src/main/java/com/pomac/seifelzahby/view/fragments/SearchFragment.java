@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +19,9 @@ import android.widget.TextView;
 import com.pomac.seifelzahby.Globals;
 import com.pomac.seifelzahby.R;
 import com.pomac.seifelzahby.adapters.OnProductSelected;
+import com.pomac.seifelzahby.adapters.ProductsAdapter;
 import com.pomac.seifelzahby.view.AppNavigator;
+import com.pomac.seifelzahby.viewmodel.SearchViewModel;
 
 import java.util.Locale;
 import java.util.Map;
@@ -32,7 +37,7 @@ public class SearchFragment extends Fragment implements OnProductSelected {
     private TextView itemsNumber;
     private ImageView exitSearchResult;
     private TextView noSearchResultTextView;
-    private TextView searchResultsRecyclerView;
+    private RecyclerView searchResultsRecyclerView;
 
     private AppNavigator navigator;
 
@@ -56,7 +61,7 @@ public class SearchFragment extends Fragment implements OnProductSelected {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        assert getActivity() != null;
+        assert getActivity() != null && getArguments() != null;
         navigator = (AppNavigator) getActivity();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(Globals.ITEMS_NUMBER)) {
@@ -69,6 +74,24 @@ public class SearchFragment extends Fragment implements OnProductSelected {
         itemsNumber.setOnClickListener(v -> navigator.onNavigateToShoppingCart());
 
         exitSearchResult.setOnClickListener(v -> findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.mainFragment));
+
+        String keyword = getArguments().getString(Globals.SEARCH_KEYWORD);
+        SearchViewModel searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+
+        assert getActivity() != null;
+        searchViewModel.getSearchResponse(keyword).observe(getActivity(), response -> {
+            if (response.getData().isEmpty()) {
+                searchResultsRecyclerView.setVisibility(View.GONE);
+                noSearchResultTextView.setVisibility(View.VISIBLE);
+            } else {
+                searchResultsRecyclerView.setVisibility(View.VISIBLE);
+                noSearchResultTextView.setVisibility(View.GONE);
+
+                ProductsAdapter adapter = new ProductsAdapter(getActivity(), response.getData(), this);
+                searchResultsRecyclerView.setAdapter(adapter);
+                searchResultsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
+            }
+        });
     }
 
     @Override
