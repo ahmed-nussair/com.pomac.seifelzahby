@@ -27,4 +27,5 @@ public class Globals {
     // For search
 
     public static final String SEARCH_KEYWORD = "keyword";
+
 }

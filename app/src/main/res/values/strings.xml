@@ -64,4 +64,6 @@
 
     <string name="search_result">نتائج البحث</string>
     <string name="no_search_result">عفوا لا يوجد نتائج للبحث</string>
+
+    <string name="no_connectivity">من فضلك قم بالاتصال بالإنترنت قبل استخدام التطبيق</string>
 </resources>

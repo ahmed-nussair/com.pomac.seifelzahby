@@ -2,6 +2,8 @@ package com.pomac.seifelzahby.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 

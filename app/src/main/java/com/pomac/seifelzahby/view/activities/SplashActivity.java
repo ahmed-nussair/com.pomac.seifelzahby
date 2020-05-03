@@ -1,6 +1,8 @@
 package com.pomac.seifelzahby.view.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -17,10 +19,18 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this,
-                    MainActivity.class);
+            Intent intent = isNetworkConnected() ? new Intent(SplashActivity.this,
+                    MainActivity.class) : new Intent(SplashActivity.this,
+                    NoConnectionActivity.class);
             startActivity(intent);
             finish();
         }, 3000);
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        assert cm != null;
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }
