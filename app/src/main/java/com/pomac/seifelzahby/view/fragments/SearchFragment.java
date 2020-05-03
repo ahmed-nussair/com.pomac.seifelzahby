@@ -96,18 +96,18 @@ public class SearchFragment extends Fragment implements OnProductSelected {
 
     @Override
     public void onProductSelected(Map<String, String> productData) {
-//        Bundle bundle = new Bundle();
-//
-//        String productIdData = productData.get(Globals.PRODUCT_ID);
-//        bundle.putInt(Globals.PRODUCT_ID, productIdData != null ? Integer.parseInt(productIdData) : 0);
-//        bundle.putString(Globals.PRODUCT_NAME, productData.get(Globals.PRODUCT_NAME));
-//        bundle.putString(Globals.PRODUCT_DESCRIPTION, productData.get(Globals.PRODUCT_DESCRIPTION));
-//        bundle.putString(Globals.PRODUCT_IMAGE_PATH, productData.get(Globals.PRODUCT_IMAGE_PATH));
-//        bundle.putString(Globals.PRODUCT_PRICE, productData.get(Globals.PRODUCT_PRICE));
-//        bundle.putString(Globals.PRODUCT_CATEGORY_NAME, productData.get(Globals.PRODUCT_CATEGORY_NAME));
+        Bundle bundle = new Bundle();
+
+        String productIdData = productData.get(Globals.PRODUCT_ID);
+        bundle.putInt(Globals.PRODUCT_ID, productIdData != null ? Integer.parseInt(productIdData) : 0);
+        bundle.putString(Globals.PRODUCT_NAME, productData.get(Globals.PRODUCT_NAME));
+        bundle.putString(Globals.PRODUCT_DESCRIPTION, productData.get(Globals.PRODUCT_DESCRIPTION));
+        bundle.putString(Globals.PRODUCT_IMAGE_PATH, productData.get(Globals.PRODUCT_IMAGE_PATH));
+        bundle.putString(Globals.PRODUCT_PRICE, productData.get(Globals.PRODUCT_PRICE));
+        bundle.putString(Globals.PRODUCT_CATEGORY_NAME, productData.get(Globals.PRODUCT_CATEGORY_NAME));
 //        bundle.putInt(Globals.PRODUCT_CATEGORY_ID, categoryId);
-//
-//        assert getActivity() != null;
-//        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.productDetailsFragment, bundle);
+
+        assert getActivity() != null;
+        findNavController(getActivity().findViewById(R.id.nav_host)).navigate(R.id.productDetailsFragment, bundle);
     }
 }

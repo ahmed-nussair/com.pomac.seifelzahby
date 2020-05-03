@@ -52,6 +52,9 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
 
     private int productQuantity;
 
+    private TextView productDetailsNameTextView;
+    private TextView relatedProductsLabel;
+
     public ProductDetailsFragment() {
         // Required empty public constructor
     }
@@ -62,6 +65,8 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_details, container, false);
         itemsNumber = view.findViewById(R.id.itemsNumber);
+        productDetailsNameTextView = view.findViewById(R.id.productDetailsNameTextView);
+        relatedProductsLabel = view.findViewById(R.id.relatedProductsLabel);
         return view;
     }
 
@@ -81,6 +86,9 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         productPrice = getArguments().getString(Globals.PRODUCT_PRICE);
         productImagePath = getArguments().getString(Globals.PRODUCT_IMAGE_PATH);
 
+        productDetailsNameTextView.setText(productName);
+        if (categoryId == -1) relatedProductsLabel.setVisibility(View.GONE);
+
         assert getActivity() != null;
         navigator = (AppNavigator) getActivity();
         itemsNumber.setOnClickListener(v -> navigator.onNavigateToShoppingCart());
@@ -91,7 +99,7 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         } else {
             itemsNumber.setVisibility(View.GONE);
         }
-        TextView productCategoryMainTitle = getActivity().findViewById(R.id.productCategoryMainTitle);
+
         ImageView backToProductsList = getActivity().findViewById(R.id.backToProductsList);
         ImageView productImageView = getActivity().findViewById(R.id.productDetailsImage);
         TextView productDesctipionTextView = getActivity().findViewById(R.id.productDescription);
@@ -102,7 +110,7 @@ public class ProductDetailsFragment extends Fragment implements OnProductSelecte
         Button addToCartButton = getActivity().findViewById(R.id.addToCartButton);
         RecyclerView relatedProductsRecycleView = getActivity().findViewById(R.id.relatedProductsRecycleView);
 
-        productCategoryMainTitle.setText(categoryName);
+//        productCategoryMainTitle.setText(categoryName);
         backToProductsList.setOnClickListener(v -> {
 
             if (categoryId != -1) {
